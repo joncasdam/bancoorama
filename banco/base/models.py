@@ -4,8 +4,8 @@ from django.contrib.auth.models import User
 
 
 class Perfil(models.Model):
-    CORRENTISTA = 0
-    ADMINISTRADOR = 1
+    CORRENTISTA = 1
+    ADMINISTRADOR = 2
 
     TIPOS = (
         (CORRENTISTA, u'Correntista'),
