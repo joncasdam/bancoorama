@@ -30,3 +30,25 @@ class Conta(BaseModel):
 
     def __unicode__(self):
         return u'{} {} {}'.format(self.agencia, self.numero, self.correntista)
+
+
+class Transacao(BaseModel):
+    SAQUE = 1
+    DEPOSITO = 2
+
+    TIPOS = (
+        (SAQUE, 'Saque'),
+        (DEPOSITO, u'Depósito'),
+    )
+
+    conta = models.ForeignKey(Conta, verbose_name=u'Conta', related_name='transacoes')
+    valor = MoneyField(u'Valor', max_digits=10, decimal_places=2, default_currency='BRL')
+    tipo = models.IntegerField(u'Tipo', choices=TIPOS, default=SAQUE, blank=True, null=True)
+    saldo = MoneyField(u'Saldo', max_digits=10, decimal_places=2, default_currency='BRL')
+
+    class Meta:
+        verbose_name = u'Transação'
+        verbose_name_plural = u'Transações'
+
+    def __unicode__(self):
+        return '{} de {} feito por {} '.format(self.TIPOS[self.tipo][1], self.valor, self.conta)
