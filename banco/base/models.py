@@ -28,3 +28,14 @@ class Perfil(models.Model):
     @property
     def eh_administrador(self):
         return True if self.tipo == self.ADMINISTRADOR else False
+
+
+class Banco(models.Model):
+    nome = models.CharField(u'Nome', max_length=250, null=False, blank=False, unique=True)
+
+    class Meta:
+        verbose_name = u'Banco'
+        verbose_name_plural = u'Bancos'
+
+    def __unicode__(self):
+        return u'%s' % self.nome
