@@ -21,3 +21,10 @@ class Perfil(models.Model):
     def __unicode__(self):
         return u'%s' % self.user
 
+    @property
+    def eh_correntista(self):
+        return True if self.tipo == self.CORRENTISTA else False
+
+    @property
+    def eh_administrador(self):
+        return True if self.tipo == self.ADMINISTRADOR else False
