@@ -32,8 +32,7 @@ class BaseModel(models.Model):
         u"data da criação", auto_now_add=True, editable=False, null=True
     )
     data_atualizacao = models.DateTimeField(
-        u"data da atualização", auto_now=True, auto_now_add=True,
-        editable=False, null = True
+        u"data da atualização", auto_now=True, editable=False, null = True
     )
 
     objects = BaseManager()
