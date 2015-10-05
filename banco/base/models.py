@@ -2,6 +2,8 @@
 from django.db import models
 from django.contrib.auth.models import User
 
+from utils.models import BaseManager
+
 
 class Perfil(models.Model):
     CORRENTISTA = 1
@@ -13,6 +15,8 @@ class Perfil(models.Model):
     )
     user = models.ForeignKey(User, related_name='perfil', verbose_name=u'Usuário')
     tipo = models.IntegerField(u'Tipo', choices=TIPOS, default=CORRENTISTA, blank=True, null=True)
+
+    objects = BaseManager()
 
     class Meta:
         verbose_name = u'Perfil'
