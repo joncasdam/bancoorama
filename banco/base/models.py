@@ -1,7 +1,9 @@
 # -*- encoding: utf-8 -*-
 from django.db import models
 from django.contrib.auth.models import User
+from django.contrib.auth import authenticate, login
 
+from signals import perfil_post_save
 from utils.models import BaseManager
 
 
@@ -32,6 +34,23 @@ class Perfil(models.Model):
     @property
     def eh_administrador(self):
         return True if self.tipo == self.ADMINISTRADOR else False
+
+    @classmethod
+    def criar_correntista(cls, request, email, senha):
+        usr = User.objects.create_user(email, email, senha)
+        if usr:
+            usr.is_active = True
+            usr.save()
+            login(request, usr)
+            try:
+                authenticate(username=email, password=senha)
+            except:
+                return False
+            novo_usuario = cls.objects.create(user=usr)
+            return novo_usuario
+        return False
+
+models.signals.post_delete.connect(perfil_post_save, sender=Perfil)
 
 
 class Banco(models.Model):
