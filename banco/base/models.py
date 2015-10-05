@@ -15,7 +15,7 @@ class Perfil(models.Model):
         (CORRENTISTA, u'Correntista'),
         (ADMINISTRADOR, u'Administrador'),
     )
-    user = models.ForeignKey(User, related_name='perfil', verbose_name=u'Usuário')
+    user = models.OneToOneField(User, related_name='perfil', verbose_name=u'Usuário')
     tipo = models.IntegerField(u'Tipo', choices=TIPOS, default=CORRENTISTA, blank=True, null=True)
 
     objects = BaseManager()
