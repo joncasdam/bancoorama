@@ -1,8 +1,12 @@
 # -*- encoding: utf-8 -*-
 from random import randint
+from moneyed.classes import Money
+from moneyed import BRL
+from moneyed.localization import format_money
 
 from djmoney.models.fields import MoneyField
 from django.db import models
+from django.conf import settings
 
 from utils.models import BaseModel, BaseManager
 from base.models import Perfil, Banco
@@ -63,6 +67,10 @@ class Conta(BaseModel):
                 numero = self.gera_numero_conta()
             self.numero = numero
         super(Conta, self).save(*args, **kwargs)
+
+    @property
+    def saldo_conta(self):
+        return format_money(self.saldo, locale=settings.LANGUAGE_CODE)
 
 
 class Transacao(BaseModel):
