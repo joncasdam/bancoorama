@@ -55,7 +55,7 @@ class Conta(BaseModel):
         return '{:05}'.format(numero, 5)
 
     def save(self, *args, **kwargs):
-        if Conta.objects.get_or_none(correntista=self.correntista):
+        if not self.id and Conta.objects.get_or_none(correntista=self.correntista):
             return
         if not self.numero:
             numero = self.gera_numero_conta()
