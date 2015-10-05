@@ -1,14 +1,18 @@
 # -*- encoding: utf-8 -*-
+from random import randint
+
 from djmoney.models.fields import MoneyField
 from django.db import models
 
-from utils.models import BaseModel
+from utils.models import BaseModel, BaseManager
 from base.models import Perfil, Banco
 
 
 class Agencia(models.Model):
     banco = models.ForeignKey(Banco, verbose_name=u'Banco', related_name='agencias')
     codigo = models.IntegerField(u'Código', editable=False, unique=True)
+
+    objects = BaseManager()
 
     class Meta:
         verbose_name = u'Agência'
