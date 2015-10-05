@@ -7,7 +7,7 @@ Projeto teste de um pseudo Internet Banking da Órama usando Django 1.8 com Angu
 Instruções de setup
 -------------------
 
-Dado que você já tenha python 2.7+ e pip instalado em sua máquina, faça
+Dado que você já tenha python 2.7+, sqlite e pip instalado em sua máquina, faça
 
 ::
 
@@ -19,6 +19,6 @@ Dado que você já tenha python 2.7+ e pip instalado em sua máquina, faça
     $ pip install -r requirements.txt
     $ cd banco
     $ ./manage.py migrate
+    # ./manage.py createsuperuser
     $ ./manage.py runserver
-
 
