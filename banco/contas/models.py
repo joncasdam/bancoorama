@@ -49,6 +49,21 @@ class Conta(BaseModel):
     def __unicode__(self):
         return u'{} {} {}'.format(self.agencia, self.numero, self.correntista)
 
+    @staticmethod
+    def gera_numero_conta():
+        numero = randint(0, (10 ** 5) - 1)
+        return '{:05}'.format(numero, 5)
+
+    def save(self, *args, **kwargs):
+        if Conta.objects.get_or_none(correntista=self.correntista):
+            return
+        if not self.numero:
+            numero = self.gera_numero_conta()
+            while Conta.objects.get_or_none(numero=numero):
+                numero = self.gera_numero_conta()
+            self.numero = numero
+        super(Conta, self).save(*args, **kwargs)
+
 
 class Transacao(BaseModel):
     SAQUE = 1
