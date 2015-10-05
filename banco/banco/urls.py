@@ -21,5 +21,9 @@ from django.conf.urls.static import static
 urlpatterns = [
     url(r'^admin/', include(admin.site.urls)),
 
+    url(r'^dashboard/$', 'base.views.dashboard', name='dashboard'),
+    url(r'^login/$', 'base.views.login_usr', name='login_usr'),
+    url(r'^logout/$', 'base.views.logout_usr', name='logout_usr'),
+    url(r'^signup/$', 'base.views.signup_usr', name='signup_usr'),
     url(r'^$', 'base.views.index', name='index'),
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
