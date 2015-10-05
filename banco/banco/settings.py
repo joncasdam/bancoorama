@@ -121,7 +121,7 @@ BRL = moneyed.add_currency(
 _FORMATTER.add_sign_definition(
     'default',
     BRL,
-    prefix=u'R '
+    prefix=u'R$ '
 )
 
 _FORMATTER.add_formatting_definition(
