@@ -1,0 +1,33 @@
+{% extends "index.html" %}
+{% block customcss %}
+    <!-- Custom styles for this template -->
+    <link href="http://getbootstrap.com/examples/signin/signin.css" rel="stylesheet">
+{% endblock %}
+
+{% block nav %}
+  <nav class="navbar navbar-inverse navbar-fixed-top">
+      <div class="container">
+        <div class="navbar-header">
+          <a class="navbar-brand" href="{% url 'index' %}">Internet Banking - Órama</a>
+        </div>
+      </div>
+    </nav>
+  {% endblock %}
+{% block conteudo %}
+    <div class="container">
+
+      <form class="form-signin" action="{% url 'login_usr' %}" method="post">
+        {% csrf_token %}
+        <h3>Não tem conta? <a href="{% url 'signup_usr' %}">Crie aqui.</a></h3>
+        <h2 class="form-signin-heading">Faça login</h2>
+        <label for="inputEmail" class="sr-only">E-mail</label>
+        <input type="email" name="email" id="inputEmail" class="form-control" placeholder="Email address" required autofocus>
+        <label for="inputPassword" class="sr-only">Senha</label>
+        <input type="password" name="senha" id="inputPassword" class="form-control" placeholder="Password" required>
+        <button class="btn btn-lg btn-primary btn-block" type="submit">Acesse</button>
+        <a href="{% url 'index' %}" role="button">&laquo; Voltar</a>
+      </form>
+
+    </div> <!-- /container -->
+
+{% endblock %}

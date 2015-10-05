@@ -1,12 +1,121 @@
-<!doctype html>
-<html lang="pt-BR">
+<!DOCTYPE html>
+<html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+    <meta name="description" content="">
+    <meta name="author" content="">
 
-    <title>Internet Banking</title>
+    <title>Internet Bankingp</title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="http://getbootstrap.com/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    {% block customcss %}
+    <!-- Custom styles for this template -->
+    <link href="http://getbootstrap.com/examples/jumbotron/jumbotron.css" rel="stylesheet">
+    {% endblock %}
+
+    <!-- Just for debugging purposes. Don't actually copy these 2 lines! -->
+    <!--[if lt IE 9]><script src="http://getbootstrap.com/assets/js/ie8-responsive-file-warning.js"></script><![endif]-->
+    <script src="http://getbootstrap.com/assets/js/ie-emulation-modes-warning.js"></script>
+
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
 </head>
-<body>
-<h1>Bem vindo</h1>
-</body>
+
+  <body>
+  {% block nav %}
+  <nav class="navbar navbar-inverse navbar-fixed-top">
+      <div class="container">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="{% url 'index' %}">Internet Banking - Órama</a>
+        </div>
+        <div id="navbar" class="navbar-collapse collapse">
+            {% if user.is_authenticated %}
+                <ul class="nav navbar-nav navbar-right">
+                    <li><a href="{% url 'logout_usr' %}">Logout</a></li>
+                </ul>
+            {% else %}
+              <form class="navbar-form navbar-right" action="{% url 'login_usr' %}" method="post">
+                  {% csrf_token %}
+                <div class="form-group">
+                  <input type="text" name="email" placeholder="Email" class="form-control">
+                </div>
+                <div class="form-group">
+                  <input type="password" name="senha" placeholder="Password" class="form-control">
+                </div>
+                <button type="submit" class="btn btn-success">Acesse</button>
+              </form>
+            {% endif %}
+        </div><!--/.navbar-collapse -->
+      </div>
+    </nav>
+  {% endblock %}
+{% block conteudo %}
+
+    <!-- Main jumbotron for a primary marketing message or call to action -->
+    <div class="jumbotron">
+      <div class="container">
+        <h1>Bem vindo!</h1>
+        <p>Esse é site de implementação do teste de Internet Banking da Órama. Para realizar as
+            operações disponíveis é preciso criar uma conta antes. Com a contra criada você
+            poderá gerenciar sua conta, fazer saques e depósitos.</p>
+          {% if user.is_authenticated %}
+          <p><a class="btn btn-primary btn-lg" href="{% url 'dashboard' %}" role="button">Acessar
+            conta &raquo;</a></p>
+          {% else %}
+        <p><a class="btn btn-primary btn-lg" href="{% url 'login_usr' %}" role="button">Login</a>  <a class="btn btn-primary btn-lg" href="{% url 'signup_usr' %}" role="button">Criar conta</a></p>
+          {% endif %}
+      </div>
+    </div>
+
+    <div class="container">
+      <!-- Example row of columns -->
+      <div class="row">
+        <div class="col-md-4">
+          <h2>Extrato</h2>
+          <p>Veja toda movimentação da sua conta.</p>
+          <p><a class="btn btn-default"
+                href="{% if user.is_authenticated %}{% url 'dashboard' %}{%else%}{% url 'login_usr' %}{%endif%}"
+                role="button">Veja
+              agora &raquo;</a></p>
+        </div>
+        <div class="col-md-4">
+          <h2>Saques</h2>
+          <p>Retire quanto dinheiro puder de sua conta.</p>
+          <p><a class="btn btn-default" href="{% if user.is_authenticated %}{% url 'dashboard' %}{%else%}{% url 'login_usr' %}{%endif%}" role="button">Saque agora &raquo;</a></p>
+       </div>
+        <div class="col-md-4">
+          <h2>Depósitos</h2>
+          <p>Deposite todo dinheiro que quiser em sua conta.</p>
+          <p><a class="btn btn-default" href="{% if user.is_authenticated %}{% url 'dashboard' %}{%else%}{% url 'login_usr' %}{%endif%}" role="button">Deposite agora &raquo;</a></p>
+        </div>
+      </div>
+
+      <hr>
+
+    </div> <!-- /container -->
+{% endblock %}
+{% block rodape %}
+    <!-- Bootstrap core JavaScript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+    <script src="http://getbootstrap.com/dist/js/bootstrap.min.js"></script>
+    <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
+    <script src="http://getbootstrap.com/assets/js/ie10-viewport-bug-workaround.js"></script>
+{% endblock %}
+  </body>
+</html>
