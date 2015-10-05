@@ -21,6 +21,20 @@ class Agencia(models.Model):
     def __unicode__(self):
         return '%s' % self.codigo
 
+    @staticmethod
+    def gera_numero_agencia():
+        numero = randint(0, (10 ** 4) - 1)
+        return '{:04}'.format(numero, 4)
+
+    def save(self, *args, **kwargs):
+        if not self.codigo:
+            codigo = self.gera_numero_agencia()
+            while Agencia.objects.get_or_none(codigo=codigo):
+                codigo = self.gera_numero_agencia()
+            self.codigo = codigo
+        super(Agencia, self).save(*args, **kwargs)
+
+
 
 class Conta(BaseModel):
     agencia = models.ForeignKey(Agencia, verbose_name=u'Agência', related_name='contas')
