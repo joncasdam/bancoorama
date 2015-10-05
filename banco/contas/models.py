@@ -72,6 +72,10 @@ class Conta(BaseModel):
     def saldo_conta(self):
         return format_money(self.saldo, locale=settings.LANGUAGE_CODE)
 
+    @classmethod
+    def cria_conta(cls, correntista):
+        cls.objects.create(agencia_id=1, correntista=correntista)
+
 
 class Transacao(BaseModel):
     SAQUE = 1
