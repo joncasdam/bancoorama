@@ -93,3 +93,25 @@ class Transacao(BaseModel):
 
     def __unicode__(self):
         return '{} de {} feito por {} '.format(self.TIPOS[self.tipo][1], self.valor, self.conta)
+
+    @classmethod
+    def faz_saque(cls, conta, valor):
+        novo_saldo = Money(conta.saldo, BRL) - Money(valor, BRL)
+        try:
+            cls.objects.create(conta=conta, valor=valor, tipo=cls.SAQUE, saldo=novo_saldo)
+            conta.saldo = novo_saldo
+            conta.save()
+            return True
+        except:
+            return False
+
+    @classmethod
+    def faz_deposito(cls, conta, valor):
+        novo_saldo = Money(conta.saldo, BRL) + Money(valor, BRL)
+        try:
+            cls.objects.create(conta=conta, valor=valor, tipo=cls.DEPOSITO, saldo=novo_saldo)
+            conta.saldo = novo_saldo
+            conta.save()
+            return True
+        except:
+            return False
