@@ -179,7 +179,7 @@ class Transacao(BaseModel):
             transacoes = cls.objects.filter(data_criacao__gte=inicio_hoje,
                                             data_criacao__lte=datetime.now()).aggregate(Sum('valor'))
 
-        if transacoes['valor__sum'] != None:
+        if transacoes['valor__sum'] != None or transacoes['valor__sum'] == 'None':
             return cls.valor_formatado(Money(0, BRL))
         else:
             return cls.valor_formatado(Money(transacoes['valor__sum'], BRL))
