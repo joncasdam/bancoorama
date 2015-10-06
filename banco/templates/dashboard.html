@@ -1,10 +1,10 @@
 {% extends "index.html" %}
+{% load staticfiles %}
 {% block customcss %}
-    <!-- Custom styles for this template -->
-    <link href="http://getbootstrap.com/examples/dashboard/dashboard.css" rel="stylesheet">
+<!-- Custom styles for this template -->
+<link href="{% static 'dashboard.css' %}" rel="stylesheet">
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
-  {% load staticfiles %}
   <script src="{% static 'main.js' %}" type="application/javascript"></script>
 {% endblock %}
 
