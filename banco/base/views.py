@@ -17,7 +17,10 @@ def dashboard(request):
     contexto = {}
     conta = request.user.perfil.conta
     contexto['saldo_atual']= conta.saldo_conta
-    return render(request, 'dashboard.html', contexto)
+    if request.is_ajax():
+        return render(request, 'dashboard_ajax.html', contexto)
+    else:
+        return render(request, 'dashboard.html', contexto)
 
 @login_required(login_url='/')
 def extrato(request):
