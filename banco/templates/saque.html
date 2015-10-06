@@ -8,7 +8,7 @@
         <div class="alert alert-success" role="alert">Saque feito com sucesso!</div>
         {% endif %}
         {% if error %}
-        <div class="alert alert-danger" role="alert">Houve um erro na requisição</div>
+        <div class="alert alert-danger" role="alert">{{ error }}</div>
         {% endif %}
 
         <form>

@@ -1,4 +1,6 @@
 # -*- encoding: utf-8 -*-
+from decimal import Decimal
+
 from django.shortcuts import render
 from django.contrib.auth.decorators import login_required
 from django.contrib.admin.views.decorators import staff_member_required
@@ -38,12 +40,16 @@ def saque(request):
     conta = request.user.perfil.conta
     if request.method == 'POST':
         valor = request.body.split('=')[1]
-        try:
-            sacando = Transacao.faz_saque(conta, valor)
-            if sacando:
-                contexo['sucesso'] = True
-        except:
-            contexo['error'] = True
+        # nao eh o melhor lugar mas fica aqui por hora
+        if Decimal(valor) > conta.saldo.amount:
+            contexo['error'] = 'Saldo insuficiente'
+        else:
+            try:
+                sacando = Transacao.faz_saque(conta, valor)
+                if sacando:
+                    contexo['sucesso'] = True
+            except:
+                contexo['error'] = u'Houve um erro na requisição'
 
     contexo.update({'saldo_atual': conta.saldo,
                     'saldo_int': conta.saldo_int})
