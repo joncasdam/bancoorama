@@ -76,13 +76,29 @@ class Conta(BaseModel):
     def saldo_int(self):
         return int(self.saldo.amount)
 
-    @property
-    def ultima_transacao(self):
+    def ultima_transacao(self, tipo=None):
         try:
-            ultima = self.transacoes.latest('id')
-            return '{}'.format(ultima.__unicode__)
+            if tipo == Transacao.SAQUE:
+                ultima = self.transacoes.filter(tipo=Transacao.SAQUE).latest('id')
+            elif tipo == Transacao.DEPOSITO:
+                ultima = self.transacoes.filter(tipo=Transacao.DEPOSITO).latest('id')
+            else:
+                ultima = self.transacoes.latest('id')
+            return u'{}'.format(ultima.data_e_valor)
         except:
-            return 'Ainda sem registro'
+            return u'Ainda sem registro'
+
+    @property
+    def ultimo_item_extrato(self):
+        return self.ultima_transacao()
+
+    @property
+    def ultimo_deposito(self):
+        return self.ultima_transacao(Transacao.DEPOSITO)
+
+    @property
+    def ultimo_saque(self):
+        return self.ultima_transacao(Transacao.SAQUE)
 
     @classmethod
     def cria_conta(cls, correntista):
