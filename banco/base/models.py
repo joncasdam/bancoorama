@@ -1,7 +1,7 @@
 # -*- encoding: utf-8 -*-
 from django.db import models
 from django.contrib.auth.models import User
-from django.contrib.auth import authenticate, login
+from django.contrib.auth import authenticate
 
 from signals import perfil_post_save
 from utils.models import BaseManager
@@ -41,12 +41,14 @@ class Perfil(models.Model):
         if usr:
             usr.is_active = True
             usr.save()
-            login(request, usr)
             try:
                 authenticate(username=email, password=senha)
             except:
                 return False
             novo_usuario = cls.objects.create(user=usr)
+            if novo_usuario:
+                from contas.models import Conta
+                Conta.cria_conta(novo_usuario)
             return novo_usuario
         return False
 
