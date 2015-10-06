@@ -43,7 +43,7 @@ class Agencia(models.Model):
 class Conta(BaseModel):
     agencia = models.ForeignKey(Agencia, verbose_name=u'Agência', related_name='contas')
     numero = models.IntegerField(u'Número', editable=False, unique=True)
-    correntista = models.ForeignKey(Perfil, verbose_name=u'Correntista', related_name='conta')
+    correntista = models.OneToOneField(Perfil, verbose_name=u'Correntista', related_name='conta')
     saldo = MoneyField(max_digits=10, decimal_places=2, default_currency='BRL')
 
     class Meta:
