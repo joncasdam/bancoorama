@@ -34,6 +34,76 @@ $(document).ready(function() {
     });
   });
 
+  $("#extratoadmin").on("click", function (event) {
+    event.preventDefault();
+    $('.active').removeClass('active');
+    $.ajax({
+      url: '/extrato/',
+      dataType: 'html',
+      method: 'get',
+      success: function(dados){
+        $('#container-fluid').html(dados);
+        $("#extratoadmin").parents().addClass('active');
+      },
+      error: function(){
+        console.log('erro ao pegar extrato');
+      }
+    });
+  });
+
+  $("#saquesadmin").on("click", function (event) {
+    event.preventDefault();
+    $('.active').removeClass('active');
+    $.ajax({
+      url: '/extrato/',
+      dataType: 'html',
+      method: 'get',
+      data: {'tipo': 1},
+      success: function(dados){
+        $('#container-fluid').html(dados);
+        $("#saquesadmin").parents().addClass('active');
+      },
+      error: function(){
+        console.log('erro ao pegar extrato');
+      }
+    });
+  });
+
+  $("#depositosadmin").on("click", function (event) {
+    event.preventDefault();
+    $('.active').removeClass('active');
+    $.ajax({
+      url: '/extrato/',
+      dataType: 'html',
+      method: 'get',
+      data: {'tipo': 2},
+      success: function(dados){
+        $('#container-fluid').html(dados);
+        $("#depositosadmin").parents().addClass('active');
+      },
+      error: function(){
+        console.log('erro ao pegar extrato');
+      }
+    });
+  });
+
+  $("#listasaldos").on("click", function (event) {
+    event.preventDefault();
+    $('.active').removeClass('active');
+    $.ajax({
+      url: '/listasaldos/',
+      dataType: 'html',
+      method: 'get',
+      success: function(dados){
+        $('#container-fluid').html(dados);
+        $("#listasaldos").parents().addClass('active');
+      },
+      error: function(){
+        console.log('erro ao pegar extrato');
+      }
+    });
+  });
+
   $("#saque").on("click", function (event) {
     event.preventDefault();
     $('.active').removeClass('active');
