@@ -7,7 +7,7 @@
 {% block conteudo %}
     <div class="container">
 
-      <form class="form-signin" action="{% url 'signup' %}" method="post">
+      <form class="form-signin" action="{% url 'signup_usr' %}" method="post">
           {% if context.error %}
           <div class="alert alert-danger" role="alert">{{ context.error }}</div>
           {% endif %}
