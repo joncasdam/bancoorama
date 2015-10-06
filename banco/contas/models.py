@@ -96,7 +96,7 @@ class Transacao(BaseModel):
         verbose_name_plural = u'Transações'
 
     def __unicode__(self):
-        return '{} de {} feito por {} '.format(self.TIPOS[self.tipo][1], self.valor, self.conta)
+        return '{} de {}'.format(self.TIPOS[self.tipo][1], self.valor)
 
     @classmethod
     def faz_saque(cls, conta, valor):
