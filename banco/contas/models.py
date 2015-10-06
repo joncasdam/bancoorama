@@ -3,10 +3,12 @@ from random import randint
 from moneyed.classes import Money
 from moneyed import BRL
 from moneyed.localization import format_money
+from datetime import date, datetime
 
 from djmoney.models.fields import MoneyField
 from django.db import models
 from django.conf import settings
+from django.db.models import Sum
 
 from utils.models import BaseModel, BaseManager
 from base.models import Perfil, Banco
@@ -104,6 +106,11 @@ class Conta(BaseModel):
     def cria_conta(cls, correntista):
         cls.objects.create(agencia_id=1, correntista=correntista)
 
+    @classmethod
+    def total_em_caixa(cls):
+        contas = cls.objects.all().aggregate(Sum('saldo'))
+        return Transacao.valor_formatado(Money(contas['saldo__sum'], BRL))
+
 
 class Transacao(BaseModel):
     SAQUE = 1
@@ -160,10 +167,35 @@ class Transacao(BaseModel):
     def faz_saque(cls, conta, valor):
         return cls.faz_transacao(conta, valor, cls.SAQUE)
 
+    @classmethod
+    def total_por_tipo(cls, tipo=None):
+        hoje = date.today()
+        inicio_hoje  = datetime(hoje.year, hoje.month, hoje.day)
+        if tipo:
+            transacoes = cls.objects.filter(tipo=tipo,
+                                            data_criacao__gte=inicio_hoje,
+                                            data_criacao__lte=datetime.now()).aggregate(Sum('valor'))
+        else:
+            transacoes = cls.objects.filter(data_criacao__gte=inicio_hoje,
+                                            data_criacao__lte=datetime.now()).aggregate(Sum('valor'))
+
+        return cls.valor_formatado(Money(transacoes['valor__sum'], BRL))
+
+    @classmethod
+    def todas_do_dia(cls, tipo=None):
+        hoje = date.today()
+        inicio_hoje = datetime(hoje.year, hoje.month, hoje.day)
+        transacoes = cls.objects.filter(data_criacao__gte=inicio_hoje,
+                                        data_criacao__lte=datetime.now())
+        if tipo:
+            transacoes = transacoes.filter(tipo=tipo)
+        return [t.to_dict for t in transacoes]
+
     def to_dict(self):
         return {'id': self.id,
                 'valor': self.valor_formatado(self.valor),
                 'data': '{:%d-%m-%Y %H:%M}'.format(self.data_criacao),
                 'tipo': self.tipo,
                 'tipo_str': self.TIPOS[self.tipo-1][1],
-                'saldo': self.valor_formatado(self.saldo)}
+                'saldo': self.valor_formatado(self.saldo),
+                'numero_conta': self.conta.numero}
