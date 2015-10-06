@@ -24,7 +24,8 @@ class Command(BaseCommand):
         # cria uma agencia no banco
         Agencia.objects.create(banco=novo_banco)
         # cria perfil para usuario admin
-        # essa etapa já cria uma conta na agenca
-        Perfil.objects.create(user=admin)
+        novo_perfil = Perfil.objects.create(user=admin)
+        # essa etapa cria uma conta na agenca
+        Conta.cria_conta(novo_perfil)
 
         print 'Rotina encerrada'
