@@ -1,6 +1,6 @@
-      <h1 class="page-header">Extrato</h1>
+      <h1 class="page-header">Extrato{% if user.is_staff%} do banco{%endif%}</h1>
 
-      <h2 class="sub-header">Transações</h2>
+      <h2 class="sub-header">Transações{% if user.is_staff%} do dia{%endif%}</h2>
       {% for transacao in extrato %}
       <div class="table-responsive">
         <table class="table table-striped">
@@ -11,7 +11,7 @@
               <th>Valor</th>
               <th>Tipo</th>
               <th>Saldo</th>
-              <!--<th>Header</th>-->
+              {% if user.is_staff%}<th>Conta #</th>{% endif %}
             </tr>
           </thead>
           <tbody>
@@ -21,7 +21,7 @@
               <td>{{ transacao.valor }}</td>
               <td>{{ transacao.tipo_str }}</td>
               <td>{{ transacao.saldo }}</td>
-              <!--<td>sit</td>-->
+              {% if user.is_staff%}<td>{{ transacao.numero_conta}}</td>{% endif %}
       {% empty %}
       <h4>Sem transações para exibir</h4>
       {% endfor %}

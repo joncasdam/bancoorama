@@ -13,24 +13,23 @@
     <div class="container-fluid">
       <div class="row">
         <div class="col-sm-3 col-md-2 sidebar">
+          <h3>Menu Correntista</h3>
           <ul class="nav nav-sidebar">
             <li class="active"><a href="#" id="dashboard"><span class="glyphicon glyphicon-th" /> Dashboard <span class="sr-only">(current)</span></a></li>
             <li><a href="#" id="extrato"><span class="glyphicon glyphicon-list-alt" alt="Extrato" /> Extrato</a></li>
             <li><a href="#" id="saque"><span class="glyphicon glyphicon-upload" alt="Faça um saque" /> Saque</a></li>
             <li><a href="#" id="deposito"><span class="glyphicon glyphicon-download" alt="Deposite" /> Deposite</a></li>
           </ul>
-          <!--<ul class="nav nav-sidebar">-->
-            <!--<li><a href="">Nav item</a></li>-->
-            <!--<li><a href="">Nav item again</a></li>-->
-            <!--<li><a href="">One more nav</a></li>-->
-            <!--<li><a href="">Another nav item</a></li>-->
-            <!--<li><a href="">More navigation</a></li>-->
-          <!--</ul>-->
-          <!--<ul class="nav nav-sidebar">-->
-            <!--<li><a href="">Nav item again</a></li>-->
-            <!--<li><a href="">One more nav</a></li>-->
-            <!--<li><a href="">Another nav item</a></li>-->
-          <!--</ul>-->
+          <hr />
+          {% if user.is_staff %}
+          <h3>Menu Administrativo</h3>
+          <ul class="nav nav-sidebar">
+            <li><a href="#" id="extratoadmin">Extrato todas as operações</a></li>
+            <li><a href="#" id="depositosadmin">Extrato depósitos</a></li>
+            <li><a href="#" id="saquesadmin">Extrato saques</a></li>
+            <li><a href="#" id="listasaldos">Saldos dos clientes</a></li>
+          </ul>
+          {% endif %}
         </div>
         <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main" id="container-fluid">
         {% block miolodashboard %}

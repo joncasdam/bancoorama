@@ -1,4 +1,4 @@
-<h1 class="page-header">Dashboard</h1>
+<h1 class="page-header">Dashboard{% if user.is_staff %} da conta no banco{% endif %}</h1>
 <div class="row placeholders">
     <div class="col-xs-6 col-sm-3 placeholder">
         <h4>Última transação</h4>
@@ -17,3 +17,25 @@
         <span class="text-muted">{{ saldo_atual }}</span>
     </div>
 </div>
+{% if user.is_staff %}
+<hr />
+<h1 class="page-header">Dashboard administrativo</h1>
+<div class="row placeholders">
+    <div class="col-xs-6 col-sm-3 placeholder">
+        <h4>Última transação</h4>
+        <span class="text-muted">{{ ultima_transacao }}</span>
+    </div>
+    <div class="col-xs-6 col-sm-3 placeholder" style="border: solid 1px cadetblue;">
+        <h4>Total depositado no dia</h4>
+        <span class="text-muted">{{ total_depositado }}</span>
+    </div>
+    <div class="col-xs-6 col-sm-3 placeholder">
+        <h4>Total sacado no dia</h4>
+        <span class="text-muted">{{ total_sacado }}</span>
+    </div>
+    <div class="col-xs-6 col-sm-3 placeholder" style="border: solid 1px cadetblue;">
+        <h4>Total em caixa no banco</h4>
+        <span class="text-muted">{{ total_em_caixa }}</span>
+    </div>
+</div>
+{% endif %}
