@@ -5,6 +5,8 @@ from django.contrib.auth import authenticate, login, logout
 from django.shortcuts import redirect
 # from django.http import JsonResponse
 
+from contas.models import Transacao
+
 from base.models import Perfil
 
 def index(request):
@@ -12,7 +14,17 @@ def index(request):
 
 @login_required(login_url='/')
 def dashboard(request):
-    return render(request, 'dashboard.html')
+    contexto = {}
+    conta = request.user.perfil.conta
+    contexto['saldo_atual']= conta.saldo_conta
+    return render(request, 'dashboard.html', contexto)
+
+@login_required(login_url='/')
+def extrato(request):
+    contexto = {}
+    conta = request.user.perfil.conta
+    contexto['extrato'] = [i.to_dict() for i in conta.transacoes.all()]
+    return render(request, 'extrato.html', contexto)
 
 def login_usr(request):
     if request.method == 'POST':
