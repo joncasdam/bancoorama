@@ -76,6 +76,14 @@ class Conta(BaseModel):
     def saldo_int(self):
         return int(self.saldo.amount)
 
+    @property
+    def ultima_transacao(self):
+        try:
+            ultima = self.transacoes.latest('id')
+            return '{}'.format(ultima.__unicode__)
+        except:
+            return 'Ainda sem registro'
+
     @classmethod
     def cria_conta(cls, correntista):
         cls.objects.create(agencia_id=1, correntista=correntista)
