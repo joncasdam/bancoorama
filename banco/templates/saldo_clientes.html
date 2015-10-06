@@ -1,0 +1,25 @@
+      <h1 class="page-header">Saldos{% if user.is_staff%} dos clientes{%endif%}</h1>
+
+      <h2 class="sub-header">Saldo{% if user.is_staff%} do dia{%endif%}</h2>
+      {% for transacao in extrato %}
+      <div class="table-responsive">
+        <table class="table table-striped">
+          {% if forloop.first %}
+          <thead>
+            <tr>
+              <th>Conta #</th>
+              <th>Saldo</th>
+            </tr>
+          </thead>
+          <tbody>
+          {% endif %}
+            <tr>
+              <td>{{ transacao.numero_conta}}</td>
+              <td>{{ transacao.saldo }}</td>
+      {% empty %}
+      <h4>Sem saldos para exibir</h4>
+      {% endfor %}
+            </tr>
+          </tbody>
+        </table>
+      </div>
