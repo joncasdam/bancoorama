@@ -1,0 +1,23 @@
+      <h1 class="page-header">Saque</h1>
+
+      <div class="row placeholders">
+      <div class="col-xs-6 col-sm-4 placeholder bloco" ng-controller="MinMaxCtrl">
+          <h4>Valor do saque</h4>
+
+        <form action="{% url 'saque' %}" method="post">
+          {% csrf_token %}
+          <input type="number"
+                 name="valor_saque"
+                 class="form-control"
+                 id="valor_saque" min="0" max="{{saldo_int}}"
+                 oninvalid="setCustomValidity('Saldo insuficiente: {{saldo_atual}}')"
+                 required="required">
+          <button type="submit" class="btn btn-success">Acesse</button>
+        </form>
+      </div>
+      <div class="col-xs-6 col-sm-4 placeholder bloco" style="border: solid 1px cadetblue;">
+          <h4>Saldo</h4>
+          <span class="text-muted">{{ saldo_atual }}</span>
+      </div>
+
+    </div>
