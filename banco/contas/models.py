@@ -119,3 +119,10 @@ class Transacao(BaseModel):
             return True
         except:
             return False
+
+    def to_dict(self):
+        return {'id': self.id,
+                'valor': format_money(self.valor, locale=settings.LANGUAGE_CODE),
+                'tipo': self.tipo,
+                'tipo_str': self.TIPOS[self.tipo][1],
+                'saldo': format_money(self.saldo, locale=settings.LANGUAGE_CODE)}
