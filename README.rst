@@ -18,7 +18,7 @@ Dado que você já tenha python 2.7+, sqlite e pip instalado em sua máquina, fa
     $ cd bancoorama
     $ pip install -r requirements.txt
     $ cd banco
-    $ ./manage.py migrate
-    # ./manage.py createsuperuser
+    $ ./manage.py syncdb
+    # ./manage.py cria_base_sistema
     $ ./manage.py runserver
 
