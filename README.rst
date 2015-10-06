@@ -1,7 +1,7 @@
-Internet Banking Órama
-======================
+Internet Banking
+================
 
-Projeto teste de um pseudo Internet Banking da Órama usando Django 1.8.
+Projeto teste de um pseudo Internet Banking usando Django 1.8.
 
 
 Instruções de setup
