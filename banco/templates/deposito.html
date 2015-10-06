@@ -1,0 +1,27 @@
+      <h1 class="page-header">Depósito</h1>
+
+      <div class="row placeholders">
+      <div class="col-xs-6 col-sm-4 placeholder bloco" ng-controller="MinMaxCtrl">
+          <h4>Valor do depósito</h4>
+
+        {% if sucesso %}
+        <div class="alert alert-success" role="alert">Depósito feito com sucesso!</div>
+        {% endif %}
+        {% if error %}
+        <div class="alert alert-danger" role="alert">Houve um erro na requisição</div>
+        {% endif %}
+          <form>
+          <input type="number"
+                 name="valor_deposito"
+                 class="form-control"
+                 id="valor_deposito" min="0"
+                 required="required">
+          <button class="btn btn-success" id="btDeposito">Depositar</button>
+              </form>
+      </div>
+      <div class="col-xs-6 col-sm-4 placeholder bloco" style="border: solid 1px cadetblue;">
+          <h4>Saldo</h4>
+          <span class="text-muted">{{ saldo_atual }}</span>
+      </div>
+
+    </div>
