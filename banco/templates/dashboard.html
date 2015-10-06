@@ -14,7 +14,7 @@
       <div class="row">
         <div class="col-sm-3 col-md-2 sidebar">
           <ul class="nav nav-sidebar">
-            <li class="active"><a href="#"><span class="glyphicon glyphicon-th" /> Dashboard <span class="sr-only">(current)</span></a></li>
+            <li class="active"><a href="#" id="dashboard"><span class="glyphicon glyphicon-th" /> Dashboard <span class="sr-only">(current)</span></a></li>
             <li><a href="#" id="extrato"><span class="glyphicon glyphicon-list-alt" alt="Extrato" /> Extrato</a></li>
             <li><a href="#" id="saque"><span class="glyphicon glyphicon-upload" alt="Faça um saque" /> Saque</a></li>
             <li><a href="#" id="deposito"><span class="glyphicon glyphicon-download" alt="Deposite" /> Deposite</a></li>
@@ -34,27 +34,7 @@
         </div>
         <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main" id="container-fluid">
         {% block miolodashboard %}
-          <h1 class="page-header">Dashboard</h1>
-
-          <div class="row placeholders">
-            <div class="col-xs-6 col-sm-3 placeholder">
-              <h4>Extrato</h4>
-              <span class="text-muted">Veja as transações da sua conta</span>
-            </div>
-            <div class="col-xs-6 col-sm-3 placeholder">
-              <h4>Sacar</h4>
-              <span class="text-muted">Tenha seu dinheiro em mãos</span>
-            </div>
-            <div class="col-xs-6 col-sm-3 placeholder">
-              <h4>Depositar</h4>
-              <span class="text-muted">Insira valores na sua conta</span>
-            </div>
-            <div class="col-xs-6 col-sm-3 placeholder" style="border: solid 1px cadetblue;">
-              <h4>Saldo</h4>
-              <span class="text-muted">{{ saldo_atual }}</span>
-            </div>
-          </div>
-
+          {% include 'dashboard_ajax.html' %}
         {% endblock %}
         </div>
       </div>

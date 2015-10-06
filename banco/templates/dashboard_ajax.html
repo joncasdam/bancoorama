@@ -1,16 +1,16 @@
 <h1 class="page-header">Dashboard</h1>
 <div class="row placeholders">
     <div class="col-xs-6 col-sm-3 placeholder">
-        <h4>Extrato</h4>
-        <span class="text-muted">Veja as transações da sua conta</span>
+        <h4>Última transação</h4>
+        <span class="text-muted">{{ ultima_transacao }}</span>
+    </div>
+    <div class="col-xs-6 col-sm-3 placeholder" style="border: solid 1px cadetblue;">
+        <h4>Último saque</h4>
+        <span class="text-muted">{{ ultimo_saque }}</span>
     </div>
     <div class="col-xs-6 col-sm-3 placeholder">
-        <h4>Sacar</h4>
-        <span class="text-muted">Tenha seu dinheiro em mãos</span>
-    </div>
-    <div class="col-xs-6 col-sm-3 placeholder">
-        <h4>Depositar</h4>
-        <span class="text-muted">Insira valores na sua conta</span>
+        <h4>Último depósito</h4>
+        <span class="text-muted">{{ ultimo_deposito }}</span>
     </div>
     <div class="col-xs-6 col-sm-3 placeholder" style="border: solid 1px cadetblue;">
         <h4>Saldo</h4>
