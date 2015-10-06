@@ -1,9 +1,9 @@
 $(document).ready(function() {
   $("#dashboard").on("click", function (event) {
     event.preventDefault();
-    $('.active').removeClass('active')
+    $('.active').removeClass('active');
     $.ajax({
-      url: '/dashboard',
+      url: '/dashboard/',
       dataType: 'html',
       method: 'get',
       success: function(dados){
@@ -19,9 +19,9 @@ $(document).ready(function() {
 
   $("#extrato").on("click", function (event) {
     event.preventDefault();
-    $('.active').removeClass('active')
+    $('.active').removeClass('active');
     $.ajax({
-      url: '/extrato',
+      url: '/extrato/',
       dataType: 'html',
       method: 'get',
       success: function(dados){
@@ -36,9 +36,9 @@ $(document).ready(function() {
 
   $("#saque").on("click", function (event) {
     event.preventDefault();
-    $('.active').removeClass('active')
+    $('.active').removeClass('active');
     $.ajax({
-      url: '/saque',
+      url: '/saque/',
       dataType: 'html',
       method: 'get',
       success: function(dados){
@@ -50,4 +50,54 @@ $(document).ready(function() {
       }
     });
   });
+
+  $("#deposito").on("click", function (event) {
+    event.preventDefault();
+    $('.active').removeClass('active');
+    $.ajax({
+      url: '/deposito/',
+      dataType: 'html',
+      method: 'get',
+      success: function(dados){
+        $('#container-fluid').html(dados);
+        $("#deposito").parents().addClass('active');
+      },
+      error: function(){
+        console.log('erro no deposito');
+      }
+    });
+  });
+
+});
+
+$(document).on("click", "#btSaque", function(){
+    event.preventDefault();
+    $.ajax({
+      url: '/saque/',
+      dataType: 'html',
+      method: 'POST',
+      data: $('form').serialize(),
+      success: function(dados){
+        $('#container-fluid').html(dados);
+      },
+      error: function(){
+        console.log('erro no deposito');
+      }
+    });
+});
+
+$(document).on("click", "#btDeposito", function(){
+    event.preventDefault();
+    $.ajax({
+      url: '/deposito/',
+      dataType: 'html',
+      method: 'POST',
+      data: $('form').serialize(),
+      success: function(dados){
+        $('#container-fluid').html(dados);
+      },
+      error: function(){
+        console.log('erro no deposito');
+      }
+    });
 });
