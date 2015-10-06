@@ -22,6 +22,8 @@ urlpatterns = [
     url(r'^admin/', include(admin.site.urls)),
 
     url(r'^dashboard/$', 'base.views.dashboard', name='dashboard'),
+    url(r'^saque/$', 'base.views.saque', name='saque'),
+    url(r'^deposito/$', 'base.views.deposito', name='deposito'),
     url(r'^extrato/$', 'base.views.extrato', name='extrato'),
     url(r'^login/$', 'base.views.login_usr', name='login_usr'),
     url(r'^logout/$', 'base.views.logout_usr', name='logout_usr'),

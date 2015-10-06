@@ -2,8 +2,8 @@
 from django.shortcuts import render
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import authenticate, login, logout
+from django.views.decorators.csrf import csrf_exempt
 from django.shortcuts import redirect
-# from django.http import JsonResponse
 
 from contas.models import Transacao
 
@@ -17,10 +17,47 @@ def dashboard(request):
     contexto = {}
     conta = request.user.perfil.conta
     contexto['saldo_atual']= conta.saldo_conta
+    contexto['ultima_transacao'] = conta.ultimo_item_extrato
+    contexto['ultimo_deposito'] = conta.ultimo_deposito
+    contexto['ultimo_saque'] = conta.ultimo_saque
     if request.is_ajax():
         return render(request, 'dashboard_ajax.html', contexto)
     else:
         return render(request, 'dashboard.html', contexto)
+
+@csrf_exempt
+@login_required(login_url='/')
+def saque(request):
+    contexo = {}
+    conta = request.user.perfil.conta
+    if request.method == 'POST':
+        valor = request.body.split('=')[1]
+        try:
+            sacando = Transacao.faz_saque(conta, valor)
+            if sacando:
+                contexo['sucesso'] = True
+        except:
+            contexo['error'] = True
+
+    contexo.update({'saldo_atual': conta.saldo,
+                    'saldo_int': conta.saldo_int})
+    return render(request, 'saque.html', contexo)
+
+@csrf_exempt
+@login_required(login_url='/')
+def deposito(request):
+    contexto = {}
+    conta = request.user.perfil.conta
+    if request.method == 'POST':
+        valor = request.body.split('=')[1]
+        try:
+            depositando = Transacao.faz_deposito(conta, valor)
+            if depositando:
+                contexto['sucesso'] = True
+        except:
+            contexto['error'] = True
+    contexto.update({'saldo_atual': conta.saldo,})
+    return render(request, 'deposito.html', contexto)
 
 @login_required(login_url='/')
 def extrato(request):
