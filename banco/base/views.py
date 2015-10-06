@@ -1,11 +1,12 @@
 # -*- encoding: utf-8 -*-
 from django.shortcuts import render
 from django.contrib.auth.decorators import login_required
+from django.contrib.admin.views.decorators import staff_member_required
 from django.contrib.auth import authenticate, login, logout
 from django.views.decorators.csrf import csrf_exempt
 from django.shortcuts import redirect
 
-from contas.models import Transacao
+from contas.models import Conta, Transacao
 
 from base.models import Perfil
 
@@ -20,6 +21,11 @@ def dashboard(request):
     contexto['ultima_transacao'] = conta.ultimo_item_extrato
     contexto['ultimo_deposito'] = conta.ultimo_deposito
     contexto['ultimo_saque'] = conta.ultimo_saque
+
+    if request.user.is_staff:
+        contexto['total_sacado'] = Transacao.total_por_tipo(Transacao.SAQUE)
+        contexto['total_depositado'] = Transacao.total_por_tipo(Transacao.DEPOSITO)
+        contexto['total_em_caixa'] = Conta.total_em_caixa()
     if request.is_ajax():
         return render(request, 'dashboard_ajax.html', contexto)
     else:
@@ -62,9 +68,20 @@ def deposito(request):
 @login_required(login_url='/')
 def extrato(request):
     contexto = {}
-    conta = request.user.perfil.conta
-    contexto['extrato'] = [i.to_dict() for i in conta.transacoes.all()]
+    if request.user.is_staff:
+        tipo = request.GET.get('tipo', None)
+        contexto['extrato'] = Transacao.todas_do_dia(tipo=tipo)
+    else:
+        conta = request.user.perfil.conta
+        contexto['extrato'] = [i.to_dict() for i in conta.transacoes.all()]
     return render(request, 'extrato.html', contexto)
+
+@login_required(login_url='/')
+@staff_member_required
+def listasaldos(request):
+    contexto = {'extrato': [{'numero_conta': i.numero, 'saldo': i.saldo_conta} for i in
+                            Conta.objects.all()]}
+    return render(request, 'saldo_clientes.html', contexto)
 
 def login_usr(request):
     if request.method == 'POST':
