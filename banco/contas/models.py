@@ -122,15 +122,30 @@ class Transacao(BaseModel):
     class Meta:
         verbose_name = u'Transação'
         verbose_name_plural = u'Transações'
+        ordering = ['-data_criacao',]
 
     def __unicode__(self):
-        return '{} de {}'.format(self.TIPOS[self.tipo][1], self.valor)
+        return u'{} de {}'.format(self.TIPOS[self.tipo-1][1], self.valor)
+
+
+    @staticmethod
+    def valor_formatado(valor):
+        return '{}'.format(format_money(valor, locale=settings.LANGUAGE_CODE))
+
+    @property
+    def data_e_valor(self):
+        data = '{:%d-%m-%Y, %H:%M}'.format(self.data_criacao)
+        return '{} - {}'.format(data, self.valor_formatado(self.valor))
 
     @classmethod
-    def faz_saque(cls, conta, valor):
-        novo_saldo = Money(conta.saldo, BRL) - Money(valor, BRL)
+    def faz_transacao(cls, conta, valor, tipo):
+        valor_formatado = Money(valor, BRL)
+        if tipo == cls.SAQUE:
+            novo_saldo = conta.saldo - valor_formatado
+        else:
+            novo_saldo = conta.saldo + valor_formatado
         try:
-            cls.objects.create(conta=conta, valor=valor, tipo=cls.SAQUE, saldo=novo_saldo)
+            cls.objects.create(conta=conta, valor=valor_formatado, tipo=tipo, saldo=novo_saldo)
             conta.saldo = novo_saldo
             conta.save()
             return True
@@ -139,18 +154,16 @@ class Transacao(BaseModel):
 
     @classmethod
     def faz_deposito(cls, conta, valor):
-        novo_saldo = Money(conta.saldo, BRL) + Money(valor, BRL)
-        try:
-            cls.objects.create(conta=conta, valor=valor, tipo=cls.DEPOSITO, saldo=novo_saldo)
-            conta.saldo = novo_saldo
-            conta.save()
-            return True
-        except:
-            return False
+        return cls.faz_transacao(conta, valor, cls.DEPOSITO)
+
+    @classmethod
+    def faz_saque(cls, conta, valor):
+        return cls.faz_transacao(conta, valor, cls.SAQUE)
 
     def to_dict(self):
         return {'id': self.id,
-                'valor': format_money(self.valor, locale=settings.LANGUAGE_CODE),
+                'valor': self.valor_formatado(self.valor),
+                'data': '{:%d-%m-%Y %H:%M}'.format(self.data_criacao),
                 'tipo': self.tipo,
-                'tipo_str': self.TIPOS[self.tipo][1],
-                'saldo': format_money(self.saldo, locale=settings.LANGUAGE_CODE)}
+                'tipo_str': self.TIPOS[self.tipo-1][1],
+                'saldo': self.valor_formatado(self.saldo)}
